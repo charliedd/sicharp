@@ -1,17 +1,24 @@
 package com.sicharp.lexicalAnalyzer;
 
-import com.sicharp.lexicalCategories.LexicalCategoriesResources;
+import com.sicharp.lexicalCategories.LexicalCategory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
+
+
+/*
+    When the lexical analyzer read the source-code, it scans the code letter by letter; and when it encounters a whitespace,
+    operator symbol, or special symbols, it decides that a word is completed.
+ */
 
 public class LexicalAnalyzer {
 
     private SymbolTable symbolTable;
+    private LexicalCategorizer lexicalCategorizer;
 
     public LexicalAnalyzer(String sourceFilePath){
         symbolTable = new SymbolTable();
+        lexicalCategorizer = new LexicalCategorizer();
+
         Stack<Character> charsInFile = getCharsInFile(sourceFilePath);
         fillSymbolTable(charsInFile);
     }
@@ -22,23 +29,21 @@ public class LexicalAnalyzer {
     }
 
     public void fillSymbolTable(Stack<Character> charsInFile){
-        List<Character> currentWord = new ArrayList<>();
+        String currentInput = "";
 
         for(char currentChar : charsInFile){
-            if()
+            if(lexicalCategorizer.isWhiteSpaceOrSymbol(currentChar)){
+                if(currentInput.length() > 0){
+                    LexicalCategory lexicalCategory = lexicalCategorizer.getCategory(currentInput);
+                    Token newToken = new Token(lexicalCategory,currentInput,currentInput);
+                    symbolTable.addToken(newToken);
+                }
+            }
+
         }
 
+
+
     }
 
-    private boolean isASpecialSymbol(char currentChar){
-        if(LexicalCategoriesResources.ARITHMETIC_OPERATORS)
-    }
-
-    private boolean arrayContains(char[] charArray, char currCharr){
-        for(char chara : charArray){
-            if(currCharr == chara)
-                return true;
-        }
-        return false;
-    }
 }

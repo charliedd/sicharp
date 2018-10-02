@@ -1,18 +1,16 @@
 package com.sicharp.lexicalAnalyzer;
 
+import com.sicharp.lexicalCategories.LexicalCategory;
+
 public class Token {
-    private String lexicalCategory;
+    private LexicalCategory lexicalCategory;
     private String lexeme;
     private String attribute;
 
-    public Token(String lexicalCategory, String lexeme, String attribute){
+    public Token(LexicalCategory lexicalCategory, String lexeme, String attribute) {
         this.lexicalCategory = lexicalCategory;
         this.lexeme = lexeme;
         this.attribute = attribute;
-    }
-
-    public String getLexicalCategory() {
-        return this.lexicalCategory;
     }
 
     public String getLexeme() {

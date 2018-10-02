@@ -20,7 +20,6 @@ public class SourceFileReader {
         readSourceFile();
     }
 
-
     private void readSourceFile(){
         File sourceFile = new File(sourceFileURL);
         checkFileExists(sourceFile);
