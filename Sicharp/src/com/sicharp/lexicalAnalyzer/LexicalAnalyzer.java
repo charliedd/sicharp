@@ -33,11 +33,17 @@ public class LexicalAnalyzer {
 
         for(char currentChar : charsInFile){
             if(lexicalCategorizer.isWhiteSpaceOrSymbol(currentChar)){
-                if(currentInput.length() > 0){
+                if(!currentInput.isEmpty()){
                     LexicalCategory lexicalCategory = lexicalCategorizer.getCategory(currentInput);
                     Token newToken = new Token(lexicalCategory,currentInput,currentInput);
                     symbolTable.addToken(newToken);
+                    currentInput = "";
                 }
+                LexicalCategory lexicalCategory = lexicalCategorizer.getCategory(String.valueOf(currentChar));
+                Token newToken = new Token(lexicalCategory,String.valueOf(currentChar),String.valueOf(currentChar));
+                symbolTable.addToken(newToken);
+            }else{
+                currentInput += currentChar;
             }
 
         }
@@ -46,4 +52,9 @@ public class LexicalAnalyzer {
 
     }
 
+    public void printSymbolTable(){
+        for(Token tkn : symbolTable.getTokenList()){
+            System.out.println(tkn);
+        }
+    }
 }
