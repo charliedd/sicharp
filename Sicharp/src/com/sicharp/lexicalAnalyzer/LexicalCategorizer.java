@@ -1,10 +1,7 @@
 package com.sicharp.lexicalAnalyzer;
 
 
-import com.sicharp.lexicalCategories.Agrupator;
-import com.sicharp.lexicalCategories.Identifier;
-import com.sicharp.lexicalCategories.LexicalCategory;
-import com.sicharp.lexicalCategories.ReservedWord;
+import com.sicharp.lexicalCategories.*;
 import com.sicharp.lexicalCategories.operators.ArithmeticOperator;
 import com.sicharp.lexicalCategories.operators.ComparissionOperator;
 import com.sicharp.lexicalCategories.operators.LogicalOperator;
@@ -16,6 +13,7 @@ public class LexicalCategorizer {
     Agrupator agrupator;
     Identifier identifier;
     ReservedWord reservedWord;
+    LiteralString literalString;
 
 
     public LexicalCategorizer() {
@@ -25,6 +23,7 @@ public class LexicalCategorizer {
         agrupator = new Agrupator();
         identifier = new Identifier();
         reservedWord = new ReservedWord();
+        literalString = new LiteralString();
     }
 
     public LexicalCategory getCategory(String currentInput){
@@ -50,14 +49,40 @@ public class LexicalCategorizer {
 
     public boolean isWhiteSpaceOrSymbol(char currentChar){
         if(currentChar == ' ')return true;
-
-        String tempChar = ""+currentChar;
-        if(arithmeticOperator.belongsToThisCategory(tempChar))return true;
-        if(logicalOperator.belongsToThisCategory(tempChar)) return true;
-        if(comparissionOperator.belongsToThisCategory(tempChar))return true;
-        if(agrupator.belongsToThisCategory(tempChar))return true;
-
+        if(currentChar == '\n')return true;
+        if(isASpecialSymbol(currentChar))return true;
         return false;
     }
+
+    public boolean isASpecialSymbol(char currentChar){
+        String tempString = String.valueOf(currentChar);
+        if(arithmeticOperator.belongsToThisCategory(tempString))return true;
+        if(logicalOperator.belongsToThisCategory(tempString)) return true;
+        if(comparissionOperator.belongsToThisCategory(tempString))return true;
+        if(agrupator.belongsToThisCategory(tempString))return true;
+        if(literalString.belongsToThisCategory(tempString))return true;
+        return false;
+    }
+
+    public boolean couldBeComparissionOperator(char currentChar){
+        return (comparissionOperator.belongsToThisCategory(String.valueOf(currentChar)));
+    }
+
+    public boolean isComparissionOperator(String currentString){
+        return comparissionOperator.belongsToThisCategory(currentString);
+    }
+
+    public boolean isLetterOrNumber(char currentChar){
+        if(Character.isDigit(currentChar))return true;
+        if(Character.isLetter(currentChar))return true;
+        return false;
+    }
+
+    public boolean isLiteralSymbol(char currentChar){
+        String tempStr = String.valueOf(currentChar);
+        return literalString.belongsToThisCategory(tempStr);
+    }
+
+
 
 }

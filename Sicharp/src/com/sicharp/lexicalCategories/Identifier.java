@@ -9,11 +9,19 @@ public class Identifier extends LexicalCategory {
 
     @Override
     public boolean belongsToThisCategory(String currentInput) {
-        return false;
+        if(onlyContainsNumbersAndLetters(currentInput))
+            return true;
+        else
+            return false;
     }
 
     @Override
     public String toString() {
         return this.IDENTIFIERS_CATEGORY;
+    }
+
+
+    private boolean onlyContainsNumbersAndLetters(String input){
+        return input.matches("[a-zA-Z0-9]*");
     }
 }

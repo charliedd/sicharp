@@ -1,6 +1,7 @@
 package com.sicharp.lexicalAnalyzer;
 
 import com.sicharp.lexicalCategories.LexicalCategory;
+import com.sicharp.lexicalCategories.LiteralString;
 
 import java.util.Stack;
 
@@ -8,16 +9,16 @@ import java.util.Stack;
 /*
     When the lexical analyzer read the source-code, it scans the code letter by letter; and when it encounters a whitespace,
     operator symbol, or special symbols, it decides that a word is completed.
- */
+*/
 
 public class LexicalAnalyzer {
 
     private SymbolTable symbolTable;
-    private LexicalCategorizer lexicalCategorizer;
+    private LexicalCategorizer categorizer;
 
     public LexicalAnalyzer(String sourceFilePath){
         symbolTable = new SymbolTable();
-        lexicalCategorizer = new LexicalCategorizer();
+        categorizer = new LexicalCategorizer();
 
         Stack<Character> charsInFile = getCharsInFile(sourceFilePath);
         fillSymbolTable(charsInFile);
@@ -30,29 +31,74 @@ public class LexicalAnalyzer {
 
     public void fillSymbolTable(Stack<Character> charsInFile){
         String currentInput = "";
+        boolean insideLiteral = false;
+        boolean maybeComparission = false;
 
-        for(char currentChar : charsInFile){
-            if(lexicalCategorizer.isWhiteSpaceOrSymbol(currentChar)){
-                if(!currentInput.isEmpty()){
-                    LexicalCategory lexicalCategory = lexicalCategorizer.getCategory(currentInput);
-                    Token newToken = new Token(lexicalCategory,currentInput,currentInput);
-                    symbolTable.addToken(newToken);
+
+        for(char currentChar : charsInFile) {
+
+            if(categorizer.isWhiteSpaceOrSymbol(currentChar)){
+                if(!maybeComparission && categorizer.couldBeComparissionOperator(currentChar)){
+                    maybeComparission = true;
+                    currentInput += currentChar;
+                }
+
+                if(maybeComparission){
+                    if(categorizer.isComparissionOperator(currentInput + currentChar)){
+                        currentInput += currentChar;
+                        addToken(currentInput);
+                    }
+                }
+
+                if(categorizer.isLiteralSymbol(currentChar)){
+                    if(insideLiteral){
+                        addTokenWithCategory(currentInput,new LiteralString());
+                        currentInput = "";
+                        insideLiteral = false;
+                    }else{
+                        insideLiteral = true;
+                    }
+
+                }
+
+                if(categorizer.isASpecialSymbol(currentChar)){
+                    addToken(currentInput);
+                    addToken(String.valueOf(currentChar));
                     currentInput = "";
                 }
-                LexicalCategory lexicalCategory = lexicalCategorizer.getCategory(String.valueOf(currentChar));
-                Token newToken = new Token(lexicalCategory,String.valueOf(currentChar),String.valueOf(currentChar));
-                symbolTable.addToken(newToken);
+
+                if(currentChar == ' ' ){
+                    addToken(currentInput);
+                    currentInput = "";
+                }
+
+
+
             }else{
+                if(!categorizer.isLetterOrNumber(currentChar)){
+                    System.out.println("Invalid token");
+                    return;
+                }
                 currentInput += currentChar;
             }
 
+            System.out.println(currentInput);
         }
+    }
 
+    public void addToken(String input){
+        LexicalCategory lexicalCategory = categorizer.getCategory(input);
+        Token token = new Token(lexicalCategory,input,input);
+        symbolTable.addToken(token);
+    }
 
-
+    public void addTokenWithCategory(String input, LexicalCategory lexicalCategory){
+        Token token = new Token(lexicalCategory,input,input);
+        symbolTable.addToken(token);
     }
 
     public void printSymbolTable(){
+
         for(Token tkn : symbolTable.getTokenList()){
             System.out.println(tkn);
         }
