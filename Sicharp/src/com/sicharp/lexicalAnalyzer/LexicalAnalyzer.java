@@ -34,55 +34,70 @@ public class LexicalAnalyzer {
         boolean insideLiteral = false;
         boolean maybeComparission = false;
 
+        int index = 0;
+        int end = charsInFile.size() - 1;
 
         for(char currentChar : charsInFile) {
 
-            if(categorizer.isWhiteSpaceOrSymbol(currentChar)){
-                if(!maybeComparission && categorizer.couldBeComparissionOperator(currentChar)){
-                    maybeComparission = true;
-                    currentInput += currentChar;
-                }
+            if(!insideLiteral){
 
                 if(maybeComparission){
                     if(categorizer.isComparissionOperator(currentInput + currentChar)){
                         currentInput += currentChar;
                         addToken(currentInput);
+                        currentInput= "";
+                        maybeComparission = false;
+                    }else if(categorizer.isComparissionOperator(currentInput)){
+                        if(!currentInput.isEmpty()){
+                            addToken(currentInput);
+                            currentInput = "";
+                            maybeComparission = false;
+                        }
+                    }
+                }else{
+                    if(categorizer.isWhiteSpaceOrSymbol(currentChar)){
+                        if(categorizer.isComparissionOperator(String.valueOf(currentChar))){
+                            currentInput += currentChar;
+                            maybeComparission = true;
+                        }else if(categorizer.isLiteralSymbol(currentChar)){
+                            if(!currentInput.isEmpty()){
+                                addToken(currentInput);
+                                currentInput = "";
+                            }
+                            insideLiteral = true;
+                        }else if(categorizer.isASpecialSymbol(currentChar)){
+                            if(!currentInput.isEmpty()){
+                                addToken(currentInput);
+                                currentInput = "";
+                            }
+                            addToken(String.valueOf(currentChar));
+                        }else if (currentChar == ' '){
+                            if(!currentInput.isEmpty()){
+                                addToken(currentInput);
+                                currentInput = "";
+                            }
+                        }else if (index == end){
+                            if(!currentInput.isEmpty()){
+                                addToken(currentInput);
+                                currentInput = "";
+                            }
+                        }
+                    }
+                    else{
+                        if(categorizer.isLetterOrNumber(currentChar)){
+                            currentInput += currentChar;
+                        }else{
+                            System.out.println("invalid character");
+                        }
                     }
                 }
-
-                if(categorizer.isLiteralSymbol(currentChar)){
-                    if(insideLiteral){
-                        addTokenWithCategory(currentInput,new LiteralString());
-                        currentInput = "";
-                        insideLiteral = false;
-                    }else{
-                        insideLiteral = true;
-                    }
-
-                }
-
-                if(categorizer.isASpecialSymbol(currentChar)){
-                    addToken(currentInput);
-                    addToken(String.valueOf(currentChar));
-                    currentInput = "";
-                }
-
-                if(currentChar == ' ' ){
-                    addToken(currentInput);
-                    currentInput = "";
-                }
-
-
-
-            }else{
-                if(!categorizer.isLetterOrNumber(currentChar)){
-                    System.out.println("Invalid token");
-                    return;
-                }
-                currentInput += currentChar;
             }
+            else{
+                if(c)
+                currentInput += currentChar;
 
-            System.out.println(currentInput);
+            }
+            index++;
         }
     }
 
