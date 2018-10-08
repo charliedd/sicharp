@@ -13,12 +13,12 @@ import java.util.Stack;
 
 public class LexicalAnalyzer {
 
-    private SymbolTable symbolTable;
     private LexicalCategorizer categorizer;
+    private Automata automata;
 
     public LexicalAnalyzer(String sourceFilePath){
-        symbolTable = new SymbolTable();
         categorizer = new LexicalCategorizer();
+        automata = new Automata(categorizer);
 
         Stack<Character> charsInFile = getCharsInFile(sourceFilePath);
         fillSymbolTable(charsInFile);
@@ -30,91 +30,26 @@ public class LexicalAnalyzer {
     }
 
     public void fillSymbolTable(Stack<Character> charsInFile){
-        String currentInput = "";
-        boolean insideLiteral = false;
-        boolean maybeComparission = false;
-
-        int index = 0;
-        int end = charsInFile.size() - 1;
 
         for(char currentChar : charsInFile) {
-
-            if(!insideLiteral){
-
-                if(maybeComparission){
-                    if(categorizer.isComparissionOperator(currentInput + currentChar)){
-                        currentInput += currentChar;
-                        addToken(currentInput);
-                        currentInput= "";
-                        maybeComparission = false;
-                    }else if(categorizer.isComparissionOperator(currentInput)){
-                        if(!currentInput.isEmpty()){
-                            addToken(currentInput);
-                            currentInput = "";
-                            maybeComparission = false;
-                        }
-                    }
-                }else{
-                    if(categorizer.isWhiteSpaceOrSymbol(currentChar)){
-                        if(categorizer.isComparissionOperator(String.valueOf(currentChar))){
-                            currentInput += currentChar;
-                            maybeComparission = true;
-                        }else if(categorizer.isLiteralSymbol(currentChar)){
-                            if(!currentInput.isEmpty()){
-                                addToken(currentInput);
-                                currentInput = "";
-                            }
-                            insideLiteral = true;
-                        }else if(categorizer.isASpecialSymbol(currentChar)){
-                            if(!currentInput.isEmpty()){
-                                addToken(currentInput);
-                                currentInput = "";
-                            }
-                            addToken(String.valueOf(currentChar));
-                        }else if (currentChar == ' '){
-                            if(!currentInput.isEmpty()){
-                                addToken(currentInput);
-                                currentInput = "";
-                            }
-                        }else if (index == end){
-                            if(!currentInput.isEmpty()){
-                                addToken(currentInput);
-                                currentInput = "";
-                            }
-                        }
-                    }
-                    else{
-                        if(categorizer.isLetterOrNumber(currentChar)){
-                            currentInput += currentChar;
-                        }else{
-                            System.out.println("invalid character");
-                        }
-                    }
-                }
+            try{
+                automata.processInput(currentChar);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            else{
-                if(c)
-                currentInput += currentChar;
-
-            }
-            index++;
         }
+        automata.addStackAsToken();
+
+
+
     }
 
-    public void addToken(String input){
-        LexicalCategory lexicalCategory = categorizer.getCategory(input);
-        Token token = new Token(lexicalCategory,input,input);
-        symbolTable.addToken(token);
-    }
-
-    public void addTokenWithCategory(String input, LexicalCategory lexicalCategory){
-        Token token = new Token(lexicalCategory,input,input);
-        symbolTable.addToken(token);
-    }
 
     public void printSymbolTable(){
 
-        for(Token tkn : symbolTable.getTokenList()){
+        //SymbolTable symbolTable = automata.getSymbolTable();
+
+        for(Token tkn : automata.getSymbolTable().getTokenList()){
             System.out.println(tkn);
         }
     }
