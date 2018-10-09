@@ -3,7 +3,7 @@ package com.sicharp.lexicalAnalyzer;
 
 import com.sicharp.lexicalCategories.*;
 import com.sicharp.lexicalCategories.operators.ArithmeticOperator;
-import com.sicharp.lexicalCategories.operators.BigInt;
+import com.sicharp.lexicalCategories.BigInt;
 import com.sicharp.lexicalCategories.operators.ComparissionOperator;
 import com.sicharp.lexicalCategories.operators.LogicalOperator;
 
@@ -16,6 +16,7 @@ public class LexicalCategorizer {
     ReservedWord reservedWord;
     LiteralString literalString;
     BigInt floatingPoint;
+    Integero integero;
 
     public LexicalCategorizer() {
         arithmeticOperator = new ArithmeticOperator();
@@ -26,12 +27,25 @@ public class LexicalCategorizer {
         reservedWord = new ReservedWord();
         literalString = new LiteralString();
         floatingPoint = new BigInt();
+        integero = new Integero();
     }
 
     public LexicalCategory getCategory(String currentInput){
+        System.out.println("cate :" + currentInput);
         if(isNotASymbol(currentInput)){
             if(reservedWord.belongsToThisCategory(currentInput))
                 return new ReservedWord();
+
+            if(integero.belongsToThisCategory(currentInput)){
+                System.out.println("simio");
+                return new Integero();
+            }
+
+
+            if(floatingPoint.belongsToThisCategory(currentInput)){
+                return new BigInt();
+            }
+
         }else{
             if(arithmeticOperator.belongsToThisCategory(currentInput))
                 return new ArithmeticOperator();

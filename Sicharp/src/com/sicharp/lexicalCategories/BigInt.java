@@ -1,4 +1,4 @@
-package com.sicharp.lexicalCategories.operators;
+package com.sicharp.lexicalCategories;
 
 import com.sicharp.lexicalCategories.LexicalCategory;
 
@@ -16,6 +16,6 @@ public class BigInt extends LexicalCategory {
 
     @Override
     public String toString() {
-        return null;
+        return "Float";
     }
 }
