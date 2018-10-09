@@ -75,6 +75,9 @@ public class Automata {
                 }
                 else if (categorizer.isComparissionOperator(inputStack + currentChar)){
                     inputStack += currentChar;
+                    addStackAsToken();
+                    inputStack = "";
+                    state = State.DEFAULT;
                 }else{
                     addStackAsToken();
                     state = State.DEFAULT;

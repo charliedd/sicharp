@@ -1,8 +1,5 @@
 package com.sicharp.lexicalAnalyzer;
 
-import com.sicharp.lexicalCategories.LexicalCategory;
-import com.sicharp.lexicalCategories.LiteralString;
-
 import java.util.Stack;
 
 
@@ -47,9 +44,9 @@ public class LexicalAnalyzer {
 
     public void printSymbolTable(){
 
-        //SymbolTable symbolTable = automata.getSymbolTable();
+        SymbolTable symbolTable = automata.getSymbolTable();
 
-        for(Token tkn : automata.getSymbolTable().getTokenList()){
+        for(Token tkn : symbolTable){
             System.out.println(tkn);
         }
     }

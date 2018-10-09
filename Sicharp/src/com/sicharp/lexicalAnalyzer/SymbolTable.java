@@ -1,9 +1,10 @@
 package com.sicharp.lexicalAnalyzer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class SymbolTable {
+public class SymbolTable implements Iterable<Token>{
 
     private List<Token> tokenList;
 
@@ -15,8 +16,8 @@ public class SymbolTable {
         tokenList.add(newToken);
     }
 
-    public List<Token> getTokenList(){
-        return  tokenList;
+    @Override
+    public Iterator<Token> iterator() {
+        return tokenList.iterator();
     }
-
 }

@@ -1,6 +1,9 @@
-package com.sicharp.lexicalCategories;
+package com.sicharp.lexicalCategories.symbols;
 
-public class Agrupator extends LexicalCategory{
+import com.sicharp.lexicalCategories.LexicalCategoriesResources;
+import com.sicharp.lexicalCategories.LexicalCategory;
+
+public class Agrupator extends LexicalCategory {
     public String AGRUPATOR_CATEGORY;
     public String[] OPENING_AGRUPATORS;
     private String[] CLOSING_AGRUPATORS;

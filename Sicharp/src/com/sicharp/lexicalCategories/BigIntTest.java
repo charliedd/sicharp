@@ -1,5 +1,7 @@
 package com.sicharp.lexicalCategories;
 
+import com.sicharp.lexicalCategories.datatypes.BigInt;
+import com.sicharp.lexicalCategories.datatypes.Integero;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

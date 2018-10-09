@@ -1,6 +1,9 @@
-package com.sicharp.lexicalCategories;
+package com.sicharp.lexicalCategories.others;
 
-public class ReservedWord extends LexicalCategory{
+import com.sicharp.lexicalCategories.LexicalCategoriesResources;
+import com.sicharp.lexicalCategories.LexicalCategory;
+
+public class ReservedWord extends LexicalCategory {
 
     public static String RESERVED_WORDS_CATEGORY = "reservada";
     public static String[] RESERVED_WORDS = {"fierro","vodka","ej","entera","forloko"};

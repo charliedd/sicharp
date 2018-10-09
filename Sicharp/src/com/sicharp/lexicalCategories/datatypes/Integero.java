@@ -1,13 +1,12 @@
-package com.sicharp.lexicalCategories;
+package com.sicharp.lexicalCategories.datatypes;
 
 import com.sicharp.lexicalCategories.LexicalCategory;
 
-public class BigInt extends LexicalCategory {
+public class Integero extends LexicalCategory {
     @Override
     public boolean belongsToThisCategory(String currentInput) {
-
         try{
-            java.lang.Float.valueOf(currentInput);
+            Integer.valueOf(currentInput);
         }catch (Exception e){
             return false;
         }
@@ -16,6 +15,6 @@ public class BigInt extends LexicalCategory {
 
     @Override
     public String toString() {
-        return "Float";
+        return "Entero";
     }
 }

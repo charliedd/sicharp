@@ -1,4 +1,7 @@
-package com.sicharp.lexicalCategories;
+package com.sicharp.lexicalCategories.others;
+
+import com.sicharp.lexicalCategories.LexicalCategoriesResources;
+import com.sicharp.lexicalCategories.LexicalCategory;
 
 public class Identifier extends LexicalCategory {
     private String IDENTIFIERS_CATEGORY;
