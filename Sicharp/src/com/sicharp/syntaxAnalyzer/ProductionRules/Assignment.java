@@ -37,8 +37,14 @@ public class Assignment{
 
         for(Token token : tokenList){
 
-            if(token.getLexicalCategory().getClass() == )
+            if(index >= size)return false;
+            if(token.toString().equals(productionRules.)){
+
+            }else
+                return false;
         }
+
+        return true;
     }
-    
+
 }
