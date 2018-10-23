@@ -19,6 +19,10 @@ public class Token {
 
     public String getAttribute(){ return this.attribute;}
 
+    public LexicalCategory getLexicalCategory() {
+        return lexicalCategory;
+    }
+
     public String toString(){
         return
                 "Lexical Category = " + this.lexicalCategory

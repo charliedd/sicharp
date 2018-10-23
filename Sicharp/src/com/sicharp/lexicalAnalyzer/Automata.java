@@ -21,7 +21,6 @@ public class Automata {
         state = State.DEFAULT;
     }
 
-
     public void processInput(char currentChar) throws Exception {
         System.out.println(inputStack);
 
@@ -49,6 +48,8 @@ public class Automata {
                     inputStack += currentChar;
                     state = State.FLOAT;
                 }else if(currentChar == ';'){
+                    addStackAsToken();
+                    inputStack += currentChar;
                     addStackAsToken();
                     state = State.DEFAULT;
                 }else{
@@ -116,8 +117,6 @@ public class Automata {
                 break;
         }
 
-
-
     }
 
     public SymbolTable getSymbolTable() {
@@ -128,10 +127,12 @@ public class Automata {
         LexicalCategory lexicalCategory = categorizer.getCategory(input);
         return new Token(lexicalCategory,input,input);
     }
+
     public boolean isWhiteSpaceOrNewLine(char currentChar){
         if(currentChar == ' ' || currentChar == '\n')return true;
         else return false;
     }
+
     public void addStackAsToken(){
         if(!inputStack.isEmpty()) {
             Token token = getToken(String.valueOf(inputStack));

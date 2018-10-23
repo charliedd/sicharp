@@ -1,2 +1,2 @@
-wawa{8.34 7 "adfafdsa"
-entera ;{} lfdsg fierro ; {>=}
+entera a = 0;
+entera b = 2;

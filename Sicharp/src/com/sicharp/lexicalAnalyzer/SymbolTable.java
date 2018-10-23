@@ -16,6 +16,10 @@ public class SymbolTable implements Iterable<Token>{
         tokenList.add(newToken);
     }
 
+    public List<Token> getTokenList(){
+        return this.tokenList;
+    }
+
     @Override
     public Iterator<Token> iterator() {
         return tokenList.iterator();

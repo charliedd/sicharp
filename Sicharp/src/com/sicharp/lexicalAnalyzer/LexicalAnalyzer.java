@@ -1,5 +1,6 @@
 package com.sicharp.lexicalAnalyzer;
 
+import java.util.List;
 import java.util.Stack;
 
 
@@ -41,6 +42,9 @@ public class LexicalAnalyzer {
 
     }
 
+    public SymbolTable getSymbolTable(){
+        return this.automata.getSymbolTable();
+    }
 
     public void printSymbolTable(){
 

@@ -29,7 +29,7 @@ public class LexicalCategoriesResources {
     public static String INTEGER_CATEGORY = "Entero";
 
     public static String SYMBOLS_CATEGORY = "Simbolos";
-    public static String[] SPECIAL_SYMBOLS = {";",","};
+    public static String[] SPECIAL_SYMBOLS = {";"};
 
     public static String IDENTIFIERS_CATEGORY = "Identificador";
 
