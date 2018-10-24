@@ -53,7 +53,10 @@ public class Automata {
                     addStackAsToken();
                     state = State.DEFAULT;
                 }else{
-                    throw new Exception(inputStack + currentChar + " is not a valid input.");
+                    addStackAsToken();
+                    inputStack += currentChar;
+                    addStackAsToken();
+                    state = State.DEFAULT;
                 }
 
                 break;
@@ -129,7 +132,7 @@ public class Automata {
     }
 
     public boolean isWhiteSpaceOrNewLine(char currentChar){
-        if(currentChar == ' ' || currentChar == '\n')return true;
+        if(currentChar == ' ' || currentChar == '\n' || currentChar=='\r')return true;
         else return false;
     }
 

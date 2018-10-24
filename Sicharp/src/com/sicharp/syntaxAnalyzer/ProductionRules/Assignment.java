@@ -1,4 +1,4 @@
-package com.sicharp.syntaxAnalyzer.ProductionRules;
+package com.sicharp.syntaxAnalyzer.productionrules;
 
 import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.lexicalCategories.LexicalCategory;
@@ -38,12 +38,11 @@ public class Assignment{
         for(Token token : tokenList){
 
             if(index >= size)return false;
-            if(token.toString().equals(productionRules.)){
-
-            }else
+            if(!token.toString().equals(productionRules.get(index).toString())) {
                 return false;
-        }
+            }
 
+        }
         return true;
     }
 

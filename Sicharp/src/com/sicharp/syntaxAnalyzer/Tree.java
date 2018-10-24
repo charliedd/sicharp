@@ -6,11 +6,11 @@ import com.sicharp.lexicalCategories.symbols.Symbol;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Graph {
+public class Tree {
     Node root;
     int size;
 
-    public Graph(List<Token> stmnt){
+    public Tree(List<Token> stmnt){
         Node node = new Node(stmnt);
         root = node;
         size = 1;
