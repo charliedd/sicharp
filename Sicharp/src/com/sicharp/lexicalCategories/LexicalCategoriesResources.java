@@ -35,5 +35,8 @@ public class LexicalCategoriesResources {
 
     public static String FLOATING_POINT_CATEGORY = "Flotante";
 
+    public static String ERRORS_CHARACTER_CATEGORY = "Errores";
+    public static String[] ERRORS_CHARACTER = {"¬","°","%","$","#","@","~","^","`","'","´","?","¿",":"};
+
 
 }

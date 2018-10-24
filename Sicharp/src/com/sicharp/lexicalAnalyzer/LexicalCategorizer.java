@@ -12,6 +12,7 @@ import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.datatypes.LiteralString;
 import com.sicharp.lexicalCategories.others.ReservedWord;
 import com.sicharp.lexicalCategories.others.Unknown;
+import com.sicharp.lexicalCategories.others.Errors;
 import com.sicharp.lexicalCategories.symbols.Agrupator;
 import com.sicharp.lexicalCategories.symbols.Symbol;
 
@@ -27,6 +28,7 @@ public class LexicalCategorizer {
     Integero integero;
     Asign asign;
     Symbol symbol;
+    Errors errors;
 
     public LexicalCategorizer() {
         arithmeticOperator = new ArithmeticOperator();
@@ -41,42 +43,46 @@ public class LexicalCategorizer {
         floatingPoint = new BigInt();
         asign = new Asign();
         symbol = new Symbol();
+        errors = new Errors();
     }
 
     public LexicalCategory getCategory(String currentInput){
 
-            if(literalString.belongsToThisCategory(currentInput))
-                return new LiteralString();
+        if(literalString.belongsToThisCategory(currentInput))
+            return new LiteralString();
 
-            if(asign.belongsToThisCategory(currentInput))
-                return new Asign();
+        if(asign.belongsToThisCategory(currentInput))
+            return new Asign();
 
-            if(reservedWord.belongsToThisCategory(currentInput))
-                return new ReservedWord();
+        if(reservedWord.belongsToThisCategory(currentInput))
+            return new ReservedWord();
 
-            if(integero.belongsToThisCategory(currentInput))
-                return new Integero();
+        if(integero.belongsToThisCategory(currentInput))
+            return new Integero();
 
-            if(floatingPoint.belongsToThisCategory(currentInput))
-                return new BigInt();
+        if(floatingPoint.belongsToThisCategory(currentInput))
+            return new BigInt();
 
-            if(symbol.belongsToThisCategory(currentInput))
-                return new Symbol();
+        if(symbol.belongsToThisCategory(currentInput))
+            return new Symbol();
 
-            if(arithmeticOperator.belongsToThisCategory(currentInput))
-                return new ArithmeticOperator();
+        if(arithmeticOperator.belongsToThisCategory(currentInput))
+            return new ArithmeticOperator();
 
-            if(comparissionOperator.belongsToThisCategory(currentInput))
-                return new ComparissionOperator();
+        if(comparissionOperator.belongsToThisCategory(currentInput))
+            return new ComparissionOperator();
 
-            if(agrupator.belongsToThisCategory(currentInput))
-                return new Agrupator();
+        if(agrupator.belongsToThisCategory(currentInput))
+            return new Agrupator();
 
-            if(logicalOperator.belongsToThisCategory(currentInput))
-                return new LogicalOperator();
+        if(logicalOperator.belongsToThisCategory(currentInput))
+            return new LogicalOperator();
 
-            if(identifier.belongsToThisCategory(currentInput))
-                return new Identifier();
+        if(identifier.belongsToThisCategory(currentInput))
+            return new Identifier();
+
+        if(errors.belongsToThisCategory(currentInput))
+            return new Errors();
 
         return new Unknown();
     }
@@ -89,6 +95,7 @@ public class LexicalCategorizer {
         if(comparissionOperator.belongsToThisCategory(tempString))return true;
         if(agrupator.belongsToThisCategory(tempString))return true;
         if(literalString.belongsToThisCategory(tempString))return true;
+        if(errors.belongsToThisCategory(tempString))return true;
 
         return false;
     }

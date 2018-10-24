@@ -6,6 +6,7 @@ import com.sicharp.lexicalCategories.datatypes.Integero;
 import com.sicharp.lexicalCategories.operators.Asign;
 import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.others.ReservedWord;
+import com.sicharp.lexicalCategories.symbols.Agrupator;
 import com.sicharp.lexicalCategories.symbols.Symbol;
 
 import java.util.ArrayList;
@@ -23,12 +24,14 @@ public class Assignment{
         LexicalCategory assignation = new Asign();
         LexicalCategory literal = new Integero();
         LexicalCategory symbol = new Symbol();
+        LexicalCategory agrupator = new Agrupator();
 
         productionRules.add(reserved);
         productionRules.add(identifier);
         productionRules.add(assignation);
         productionRules.add(literal);
         productionRules.add(symbol);
+        productionRules.add(agrupator);
     }
 
     public boolean equals(List<Token> tokenList){
