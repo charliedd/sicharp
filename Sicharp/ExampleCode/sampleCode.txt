@@ -1,6 +1,5 @@
-entera(){
 
-entera a = 0?;
+entera a = 0;
 entera b = 2;
 
-}
+

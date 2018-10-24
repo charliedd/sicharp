@@ -14,7 +14,7 @@ public class ProductionRules implements Comparable<List<Token>>{
 
     public ProductionRules() {
         declarations = new ArrayList<Token>();
-        assignment = new ArrayList<Token>();
+
     }
 
     public void setDeclarations(){

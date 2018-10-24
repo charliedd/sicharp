@@ -3,17 +3,14 @@ package com.sicharp.syntaxAnalyzer;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 
 public class SyntaxAnalyzer {
-    SymbolTable symbolTable;
-    Tree graph;
-
+    SyntaxTree tree;
 
     public SyntaxAnalyzer(SymbolTable symbolTable){
-        this.symbolTable = symbolTable;
-        graph = new Tree(symbolTable.getTokenList());
+        tree = new SyntaxTree(symbolTable);
     }
 
     @Override
     public String toString() {
-        return graph.toString();
+        return tree.toString();
     }
 }

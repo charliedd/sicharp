@@ -6,20 +6,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    List<Token> tokens;
-    List<Node> neighborNodes;
+    private List<Token> tokens;
+    private List<Node> childNodes;
 
     public Node(List<Token> tokens) {
         this.tokens = tokens;
-        neighborNodes = new ArrayList<Node>();
+        childNodes = new ArrayList<Node>();
     }
 
-    public void addNeighborNode(Node node){
-        neighborNodes.add(node);
+    public void addChildNode(Node node){
+        childNodes.add(node);
+    }
+
+    public boolean hasNoChildNodes(){
+        return childNodes.isEmpty();
+    }
+
+    public List<Node> getChildNodes() {
+        return childNodes;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
     }
 
     @Override
     public String toString() {
         return tokens.toString();
     }
+
+
 }
