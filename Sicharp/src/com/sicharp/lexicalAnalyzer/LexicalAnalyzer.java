@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Stack;
 
 
-/*
-    When the lexical analyzer read the source-code, it scans the code letter by letter; and when it encounters a whitespace,
-    operator symbol, or special symbols, it decides that a word is completed.
-*/
 
 public class LexicalAnalyzer {
 

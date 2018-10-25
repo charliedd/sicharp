@@ -1,5 +1,5 @@
 
-entera a = 0;
-entera b = 2;
+entera() {
 
+}
 

@@ -6,12 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
+    private boolean isTerminal;
     private List<Token> tokens;
     private List<Node> childNodes;
 
     public Node(List<Token> tokens) {
+        isTerminal = false;
         this.tokens = tokens;
         childNodes = new ArrayList<Node>();
+    }
+
+    public void setToTerminal(){
+      isTerminal = true;
+    }
+
+    public boolean isTerminal(){
+        return isTerminal;
     }
 
     public void addChildNode(Node node){
