@@ -1,5 +1,6 @@
-
-entera() {
-
+fierro() {
+    entera x = 2;
+    entera y = 4;
+    entera a ;
 }
 

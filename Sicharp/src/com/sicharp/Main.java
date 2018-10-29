@@ -13,11 +13,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("C:\\Users\\rbty2\\Documents\\sicharp\\Sicharp\\ExampleCode\\sampleCode.txt");
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("/Users/carlosalbert.delgado/Documents/sicharp/Sicharp/ExampleCode/sampleCode.txt");
         System.out.println("SYMBOLTABLE");
         lexicalAnalyzer.printSymbolTable();
         SymbolTable symbolTable = lexicalAnalyzer.getSymbolTable();
         SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(symbolTable);
+
+        System.out.println("El arbolito");
         System.out.println(syntaxAnalyzer);
 
 

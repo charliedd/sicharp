@@ -6,14 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    private boolean isTerminal;
     private List<Token> tokens;
     private List<Node> childNodes;
+    private String type;
 
-    public Node(List<Token> tokens) {
-        isTerminal = false;
+    public Node(List<Token> tokens, String type) {
+        this.type = type;
         this.tokens = tokens;
         childNodes = new ArrayList<Node>();
+    }
+
+    public Node(Token token, String type){
+        this.type = type;
+        this.tokens = new ArrayList<Token>();
+        this.tokens.add(token);
+        this.childNodes = new ArrayList<Node>();
+
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     public void addToken(Token token){
@@ -32,4 +44,7 @@ public class Node {
         return this.childNodes;
     }
 
+    public String getType() {
+        return type;
+    }
 }
