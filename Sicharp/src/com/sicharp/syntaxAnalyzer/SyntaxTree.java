@@ -12,78 +12,62 @@ import java.util.List;
 public class SyntaxTree {
     Node root;
     int size;
-    Rule start,declaration;
 
     public SyntaxTree(SymbolTable symbolTable){
-
         List<Token> tokenList = symbolTable.getTokenList();
         Node node = new Node(tokenList);
-
-        start = new Start();
-
         root = node;
         size = 1;
         createTree();
     }
 
-
-    private void createTree2(){
-
-        Node currentNode = root;
-
-        int startIndex = 0;
-        int endIndex = 0;
-
-        for(Token token: currentNode.getTokens()){
-
-            if(token.getLexicalCategory() instanceof Symbol){
-                Node newNode = new Node(currentNode.getTokens().subList(startIndex,++endIndex));
-                parse(newNode);
-                startIndex = endIndex;
-                currentNode.addChildNode(newNode);
-            }else{
-                endIndex++;
-            }
-
-        }
-
-
-    }
-
     private void createTree(){
-        root = parse(root);
+        if(!checkFirstProductionRule())return;
+
+       // root = parse(root);
     }
 
-    private Node parse(Node currentNode){
-        if(start.belongsToThisRule(currentNode.getTokens())){
-            Node newNode = new Node()
-            parse(NodecurrentNode.getTokens().get(0))
-            System.out.println("es una asignacion");
-        }
-        else if(declaration.belongsToThisRule(currentNode.getTokens())){
+    private boolean checkFirstProductionRule(){
+        List<Token> currentTokens = root.getTokens();
 
+        int size = currentTokens.size();
+
+        Token fierroToken = currentTokens.get(0);
+        Token parentesisToken = currentTokens.get(1);
+        Token parentesisCerrado = currentTokens.get(2);
+        Token llaveAbierto = currentTokens.get(3);
+        Token llaveCerrada = currentTokens.get(size -1);
+
+        System.out.println(fierroToken.getAttribute());
+        System.out.println(parentesisToken.getAttribute());
+
+
+        if(!fierroToken.getAttribute().equals("entera")){
+            System.out.println("nel");
+            return false;
         }
-        else
-            System.out.println("false");
+        else System.out.println("NOp");
+        if(!parentesisToken.getAttribute().equals("("))return false;
+        else System.out.println("NOp");
+        if(!parentesisCerrado.getAttribute().equals(")"))return false;
+        else System.out.println("NOp");
+        if(!llaveAbierto.getAttribute().equals("{"))return false;
+        else System.out.println("NOp");
+        if(!llaveCerrada.getAttribute().equals("}"))return false;
+        else System.out.println("NOp");
+
+        return true;
+
     }
+
+//    private Node parse(Node currentNode){
+//
+//    }
 
     @Override
     public String toString() {
         StringBuilder treeAsString = new StringBuilder();
-        recursiveTraversal(treeAsString,root);
         return treeAsString.toString();
-    }
-
-
-    private void recursiveTraversal(StringBuilder graphString, Node currentNode){
-        graphString.append(currentNode.toString() + '\n');
-
-        if(currentNode.hasNoChildNodes())
-            return;
-
-        for(Node node : currentNode.getChildNodes())
-            recursiveTraversal(graphString,node);
-
     }
 
 }

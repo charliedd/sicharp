@@ -16,34 +16,20 @@ public class Node {
         childNodes = new ArrayList<Node>();
     }
 
-    public void setToTerminal(){
-      isTerminal = true;
-    }
-
-    public boolean isTerminal(){
-        return isTerminal;
+    public void addToken(Token token){
+        tokens.add(token);
     }
 
     public void addChildNode(Node node){
         childNodes.add(node);
     }
 
-    public boolean hasNoChildNodes(){
-        return childNodes.isEmpty();
+    public List<Token> getTokens(){
+        return this.tokens;
     }
 
     public List<Node> getChildNodes() {
-        return childNodes;
+        return this.childNodes;
     }
-
-    public List<Token> getTokens() {
-        return tokens;
-    }
-
-    @Override
-    public String toString() {
-        return tokens.toString();
-    }
-
 
 }
