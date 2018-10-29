@@ -76,6 +76,8 @@ public class SyntaxTree {
                 int startIndex = 0;
                 int endIndex = 0;
 
+
+
                 for(Token token: currentTokens){
                     endIndex ++;
                     if(token.getAttribute().equals(";")){
