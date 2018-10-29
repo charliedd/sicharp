@@ -12,7 +12,7 @@ public class SyntaxTree {
     int size;
 
     private enum State{
-        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL;
+        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, CONDITIONAL;
     }
 
     public SyntaxTree(SymbolTable symbolTable){
@@ -82,6 +82,15 @@ public class SyntaxTree {
                         newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex),State.STATEMENT));
                         startIndex = endIndex;
                     }
+                    if(token.getAttribute().equals("jalas")){
+                        newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex - 1),State.STATEMENT));
+                        startIndex = endIndex;
+                    }
+
+                    if(token.getAttribute().equals("}")){
+                        newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex),State.CONDITIONAL));
+                        startIndex = endIndex;
+                    }
 
 
                 }
@@ -132,6 +141,10 @@ public class SyntaxTree {
                 break;
 
             case VARIABLE:
+
+                if(currentTokens.size() == 1){
+                    newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                }
 
                 break;
 

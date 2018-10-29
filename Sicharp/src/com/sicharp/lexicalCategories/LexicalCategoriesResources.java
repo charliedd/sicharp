@@ -20,7 +20,7 @@ public class LexicalCategoriesResources {
     public static String[] ASIGNATION_OPERATORS = {"="};
 
     public static String RESERVED_WORDS_CATEGORY = "Reservada";
-    public static String[] RESERVED_WORDS = {"fierro","vodka","ej","entera","forloko"};
+    public static String[] RESERVED_WORDS = {"fierro","vodka","ej","entera","forloko","jalas"};
 
 
     public static String LITERAL_STRING_CATEGORY = "Literal";
