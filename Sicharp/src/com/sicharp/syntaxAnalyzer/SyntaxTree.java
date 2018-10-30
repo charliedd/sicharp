@@ -12,7 +12,7 @@ public class SyntaxTree {
     int size;
 
     private enum State{
-        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, CONDITIONAL;
+        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, CONDITIONAL, LOOP;
     }
 
     public SyntaxTree(SymbolTable symbolTable){
@@ -73,27 +73,40 @@ public class SyntaxTree {
 
         switch (state){
             case START:
+
+                boolean insideConditional = false;
+                boolean insideLoop = false;
+
                 int startIndex = 0;
                 int endIndex = 0;
 
-
-
                 for(Token token: currentTokens){
-                    endIndex ++;
-                    if(token.getAttribute().equals(";")){
-                        newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex),State.STATEMENT));
-                        startIndex = endIndex;
-                    }
-                    if(token.getAttribute().equals("jalas")){
-                        newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex - 1),State.STATEMENT));
-                        startIndex = endIndex;
-                    }
+                    String tokenS = token.getAttribute();
 
-                    if(token.getAttribute().equals("}")){
-                        newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex),State.CONDITIONAL));
-                        startIndex = endIndex;
-                    }
+                    if(insideConditional){
+                        if(tokenS.equals("}")){
+                            newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex + 1),State.CONDITIONAL));
+                            startIndex = endIndex + 1;
+                            insideConditional = false;
+                        }
 
+                    }else if(insideLoop){
+                        if(tokenS.equals("}")) {
+                            newNode.addChildNode(parse(currentTokens.subList(startIndex, endIndex + 1), State.LOOP));
+                            startIndex = endIndex + 1;
+                            insideLoop = false;
+                        }
+                    }else{
+                        if(tokenS.equals("jalas")){
+                            insideConditional = true;
+                        }else if(token.getAttribute().equals("forloko")){
+                            insideLoop = true;
+                        }else if(token.getAttribute().equals(";")){
+                            newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex+1),State.STATEMENT));
+                            startIndex = endIndex + 1;
+                        }
+                    }
+                    endIndex++;
 
                 }
 
@@ -149,6 +162,15 @@ public class SyntaxTree {
                 }
 
                 break;
+
+            case LOOP:
+                newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+
+                break;
+
+            case CONDITIONAL:
+                newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+
 
 
         }

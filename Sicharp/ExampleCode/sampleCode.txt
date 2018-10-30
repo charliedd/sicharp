@@ -1,8 +1,11 @@
 fierro() {
     entera x = 2;
-    entera y = 4;
     jalas(entera){
+     entera m = 3;
+    }
 
+    forloko(entera){
+     entera z = 5;
     }
 
     entera a = "huuu";
