@@ -25,8 +25,8 @@ public class Token {
 
     public String toString(){
         return
-                "C = " + this.lexicalCategory
-                        + "\tA= " + this.lexeme;
+            //    "C = " + this.lexicalCategory
+                 this.lexeme;
     };
 }
 

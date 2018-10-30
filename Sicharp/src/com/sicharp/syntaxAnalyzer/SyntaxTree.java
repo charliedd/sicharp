@@ -12,7 +12,8 @@ public class SyntaxTree {
     int size;
 
     private enum State{
-        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, CONDITIONAL, LOOP;
+        START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, LOOP,
+        CONDITIONAL, LOOPSTMNT, CONDITIONALSTMNT;
     }
 
     public SyntaxTree(SymbolTable symbolTable){
@@ -164,14 +165,65 @@ public class SyntaxTree {
                 break;
 
             case LOOP:
-                newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                newNode.addChildNode(parse(currentTokens.subList(0,1),State.TERMINAL));  //forloko
+                newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));  //(
+
+                List<Token> stmntTokens = new ArrayList<>();
+
+//                int index = 2;
+//                for (Token token: currentTokens){
+//                    if(token.getAttribute().equals(")")){
+//                        newNode.addChildNode(parse(stmntTokens, State.LOOPSTMNT));
+//                        break;
+//                    }else {
+//                        stmntTokens.add(token);
+//                    }
+//
+//                    index++;
+//                }
+
+                int index = 2;
+                for(int i = 2; i < currentTokens.size(); i++){
+                    Token token = currentTokens.get(i);
+                    if(token.getAttribute().equals(")")){
+                        newNode.addChildNode(parse(stmntTokens,State.LOOPSTMNT));
+                        index = i;
+                        break;
+                    }else{
+                        System.out.println(token);
+                        stmntTokens.add(token);
+                    }
+
+                }
+
+                System.out.println("SUBLISTA : " + currentTokens.subList(index,index+1));
+                newNode.addChildNode(parse(currentTokens.subList(index,index+1),State.TERMINAL)); //)
+
+
+                newNode.addChildNode(parse(currentTokens.subList(index + 1,index + 2),State.TERMINAL)); //{
+
+
+
+                List<Token> stuffInsideLoop = currentTokens.subList(index + 2,currentTokens.size() -1);
+                newNode.addChildNode(parse(stuffInsideLoop,State.START));
+
+                List<Token> parentesis = new ArrayList<>();
+                parentesis.add(currentTokens.get(size-1));
+                newNode.addChildNode(parse(parentesis,State.TERMINAL));//}
 
                 break;
 
             case CONDITIONAL:
                 newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                break;
 
+            case CONDITIONALSTMNT:
 
+                break;
+
+            case LOOPSTMNT:
+                newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                break;
 
         }
 
