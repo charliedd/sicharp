@@ -2,11 +2,19 @@ fierro() {
     entera x = 2;
 
     forloko(entera i = 0; i < x ; i = 1){
-     entera z = 5;
+
+    forloko(entera){
+      entera b = 3;
+    }
+     entera z = 2;
     }
 
-    if( a < b ){
+    jalas(entera){
+        entera b = 3;
 
+        jalas(entera){
+            entera r = 6;
+        }
     }
 
     entera a = "huuu";

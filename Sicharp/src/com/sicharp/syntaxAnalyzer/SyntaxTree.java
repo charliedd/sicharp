@@ -2,6 +2,8 @@ package com.sicharp.syntaxAnalyzer;
 
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
+import com.sicharp.lexicalCategories.LexicalCategory;
+import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.others.ReservedWord;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class SyntaxTree {
 
     private enum State{
         START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, LOOP,
-        CONDITIONAL, LOOPSTMNT, CONDITIONALSTMNT;
+        CONDITIONAL, LOOPSTMNT, CONDITIONALSTMNT, IDENTIFIER;
     }
 
     public SyntaxTree(SymbolTable symbolTable){
@@ -81,21 +83,40 @@ public class SyntaxTree {
                 int startIndex = 0;
                 int endIndex = 0;
 
+                int openingBrackets = 0;
+                int closingBrackets = 0;
+
                 for(Token token: currentTokens){
                     String tokenS = token.getAttribute();
 
                     if(insideConditional){
-                        if(tokenS.equals("}")){
-                            newNode.addChildNode(parse(currentTokens.subList(startIndex,endIndex + 1),State.CONDITIONAL));
-                            startIndex = endIndex + 1;
-                            insideConditional = false;
+                        if(tokenS.equals("}")) {
+                            closingBrackets++;
+                            if(openingBrackets == closingBrackets){
+                                newNode.addChildNode(parse(currentTokens.subList(startIndex, endIndex + 1), State.CONDITIONAL));
+                                startIndex = endIndex + 1;
+                                insideConditional = false;
+                                openingBrackets = 0;
+                                closingBrackets = 0;
+                            }
+                        }else{
+                            if(tokenS.equals("{"))
+                                openingBrackets++;
                         }
 
                     }else if(insideLoop){
                         if(tokenS.equals("}")) {
-                            newNode.addChildNode(parse(currentTokens.subList(startIndex, endIndex + 1), State.LOOP));
-                            startIndex = endIndex + 1;
-                            insideLoop = false;
+                            closingBrackets++;
+                            if(openingBrackets == closingBrackets){
+                                newNode.addChildNode(parse(currentTokens.subList(startIndex, endIndex + 1), State.LOOP));
+                                startIndex = endIndex + 1;
+                                insideLoop = false;
+                                openingBrackets = 0;
+                                closingBrackets = 0;
+                            }
+                        }else{
+                            if(tokenS.equals("{"))
+                                openingBrackets++;
                         }
                     }else{
                         if(tokenS.equals("jalas")){
@@ -157,9 +178,16 @@ public class SyntaxTree {
                 break;
 
             case VARIABLE:
+                //<var> -> <id> | <cte> | <funccall> | vacio | <oper>
 
                 if(currentTokens.size() == 1){
-                    newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    LexicalCategory category = currentTokens.get(0).getLexicalCategory();
+
+                    if(category instanceof Identifier){
+                        newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
                 }
 
                 break;
@@ -169,18 +197,6 @@ public class SyntaxTree {
                 newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));  //(
 
                 List<Token> stmntTokens = new ArrayList<>();
-
-//                int index = 2;
-//                for (Token token: currentTokens){
-//                    if(token.getAttribute().equals(")")){
-//                        newNode.addChildNode(parse(stmntTokens, State.LOOPSTMNT));
-//                        break;
-//                    }else {
-//                        stmntTokens.add(token);
-//                    }
-//
-//                    index++;
-//                }
 
                 int index = 2;
                 for(int i = 2; i < currentTokens.size(); i++){
@@ -214,7 +230,41 @@ public class SyntaxTree {
                 break;
 
             case CONDITIONAL:
-                newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+
+                newNode.addChildNode(parse(currentTokens.subList(0,1),State.TERMINAL));  //forloko
+                newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));  //(
+
+                List<Token> stmntTokenscond = new ArrayList<>();
+
+                int index2 = 2;
+                for(int i = 2; i < currentTokens.size(); i++){
+                    Token token = currentTokens.get(i);
+                    if(token.getAttribute().equals(")")){
+                        newNode.addChildNode(parse(stmntTokenscond,State.CONDITIONALSTMNT));
+                        index2 = i;
+                        break;
+                    }else{
+                        System.out.println(token);
+                        stmntTokenscond.add(token);
+                    }
+
+                }
+
+                System.out.println("SUBLISTA : " + currentTokens.subList(index2,index2+1));
+                newNode.addChildNode(parse(currentTokens.subList(index2,index2+1),State.TERMINAL)); //)
+
+
+                newNode.addChildNode(parse(currentTokens.subList(index2 + 1,index2 + 2),State.TERMINAL)); //{
+
+
+
+                List<Token> stuffInsideConditional = currentTokens.subList(index2 + 2,currentTokens.size() -1);
+                newNode.addChildNode(parse(stuffInsideConditional,State.START));
+
+                List<Token> parenthesis = new ArrayList<>();
+                parenthesis.add(currentTokens.get(size-1));
+                newNode.addChildNode(parse(parenthesis,State.TERMINAL));//}
+
                 break;
 
             case CONDITIONALSTMNT:
@@ -224,6 +274,9 @@ public class SyntaxTree {
             case LOOPSTMNT:
                 newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                 break;
+
+            case IDENTIFIER:
+                newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
 
         }
 
