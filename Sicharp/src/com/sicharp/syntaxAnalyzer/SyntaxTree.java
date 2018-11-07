@@ -3,6 +3,9 @@ package com.sicharp.syntaxAnalyzer;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.lexicalCategories.LexicalCategory;
+import com.sicharp.lexicalCategories.datatypes.BigInt;
+import com.sicharp.lexicalCategories.datatypes.Integero;
+import com.sicharp.lexicalCategories.datatypes.LiteralString;
 import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.others.ReservedWord;
 
@@ -59,7 +62,7 @@ public class SyntaxTree {
         if(!llaveAbierto.getAttribute().equals("{"))return false;
         if(!llaveCerrada.getAttribute().equals("}"))return false;
 
-        root.addChildNode(new Node(fierroToken,State.TERMINAL.toString()));
+        root.addChildNode(  new Node(fierroToken,State.TERMINAL.toString()));
         root.addChildNode(new Node(parentesisToken,State.TERMINAL.toString()));
         root.addChildNode(new Node(parentesisCerrado,State.TERMINAL.toString()));
         root.addChildNode(new Node(llaveAbierto,State.TERMINAL.toString()));
@@ -188,6 +191,22 @@ public class SyntaxTree {
                     }else{
                         newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                     }
+                    if (category instanceof BigInt){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
+                    if (category instanceof Integero){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
+                    if (category instanceof LiteralString){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
+
                 }
 
                 break;
