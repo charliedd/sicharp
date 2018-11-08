@@ -3,6 +3,9 @@ package com.sicharp.syntaxAnalyzer;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.lexicalCategories.LexicalCategory;
+import com.sicharp.lexicalCategories.operators.ArithmeticOperator;
+import com.sicharp.lexicalCategories.operators.ComparissionOperator;
+import com.sicharp.lexicalCategories.operators.LogicalOperator;
 import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.others.ReservedWord;
 
@@ -182,12 +185,37 @@ public class SyntaxTree {
 
                 if(currentTokens.size() == 1){
                     LexicalCategory category = currentTokens.get(0).getLexicalCategory();
-
                     if(category instanceof Identifier){
                         newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
                     }else{
                         newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                     }
+                }else{
+
+                    int index = 0;
+                    int size2 = currentTokens.size();
+                    for(Token tokn : currentTokens){
+
+                        if(tokn.getLexicalCategory() instanceof ArithmeticOperator){
+                            newNode.addChildNode(parse(currentTokens.subList(0,1),State.VARIABLE));
+                            newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));
+                            newNode.addChildNode(parse(currentTokens.subList(index+1,size2),State.VARIABLE));
+
+                        }else if(tokn.getLexicalCategory() instanceof ComparissionOperator){
+                            newNode.addChildNode(parse(currentTokens.subList(0,1),State.VARIABLE));
+                            newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));
+                            newNode.addChildNode(parse(currentTokens.subList(index+1,size2),State.VARIABLE));
+
+                        }else if(tokn.getLexicalCategory() instanceof LogicalOperator){
+
+                            newNode.addChildNode(parse(currentTokens.subList(0,1),State.VARIABLE));
+                            newNode.addChildNode(parse(currentTokens.subList(1,2),State.TERMINAL));
+                            newNode.addChildNode(parse(currentTokens.subList(index+1,size2),State.VARIABLE));
+                        }
+
+                        index += 1;
+                    }
+
                 }
 
                 break;
@@ -211,8 +239,6 @@ public class SyntaxTree {
                     }
 
                 }
-
-                System.out.println("SUBLISTA : " + currentTokens.subList(index,index+1));
                 newNode.addChildNode(parse(currentTokens.subList(index,index+1),State.TERMINAL)); //)
 
 

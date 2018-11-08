@@ -4,7 +4,7 @@ fierro() {
     forloko(entera i = 0; i < x ; i = 1){
 
     forloko(entera){
-      entera b = 3;
+      entera b = 3 + 1 + 2;
     }
      entera z = 2;
     }
