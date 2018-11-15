@@ -108,7 +108,7 @@ public class Automata {
                     inputStack+= currentChar;
                     state = State.LITERAL;
                 }
-                else if(categorizer.isASpecialSymbol(currentChar)){
+                else if(categorizer.isASpecialSymbol(currentChar) || currentChar == ';'){
                     addStackAsToken();
                     inputStack+= currentChar;
                     addStackAsToken();

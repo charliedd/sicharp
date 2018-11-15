@@ -1,22 +1,21 @@
 fierro() {
-    entera x = 2;
+    entera x = dud;
 
-    forloko(entera i = 0; i < x ; i = 1){
+    forloko(entera i = 0; i < 2 ; i = 1){
 
-    forloko(entera){
-      entera b = 3 + 1 + 2;
+    forloko(entera b = 2; i < 3 ; i = 1){
+      entera b = 3 + 1 + 2 * 4;
     }
      entera z = 2;
     }
 
-    jalas(entera){
+    jalas(entera > 1){
         entera b = 3;
 
-        jalas(entera){
+        jalas(entera < 3){
             entera r = 6;
         }
     }
 
     entera a = "huuu";
 }
-
