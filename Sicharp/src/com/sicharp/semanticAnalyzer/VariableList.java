@@ -21,14 +21,14 @@ public class VariableList {
         variables.add(variable);
     }
 
-    public Variable searchByVarName(String name){
+    public boolean checkIfVariableExists(String name){
         for(Variable variable : variables){
             if(variable.getName().equals(name)){
-                return variable;
+                return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     public List<Variable> getVariables() {

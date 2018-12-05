@@ -44,6 +44,20 @@ public class SemanticAnalyzer {
 
         if(node.getType().equals("ASIGNDECL")){
             System.out.println("ESTO ES UNA ASIGNACIONDECLARACION: " + node.getTokens());
+
+            List<Node> childNodes = node.getChildNodes();
+
+            Node nodeCategory = childNodes.get(0);
+            Node nodeName = childNodes.get(1);
+
+            String category = nodeCategory.getTokens().get(0).getAttribute().toString();
+            String name = nodeName.getTokens().get(0).getAttribute().toString();
+
+            System.out.println(category);
+            System.out.println(name);
+
+            variableList.addVariable(category,name,"");
+
         }
 
         if(node.getType().equals("ASIGNATION")){
