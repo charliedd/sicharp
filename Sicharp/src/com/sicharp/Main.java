@@ -20,15 +20,7 @@ public class Main {
         SymbolTable symbolTable = lexicalAnalyzer.getSymbolTable();
         SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(symbolTable);
 
-        System.out.println("El arbolito");
-        System.out.println(syntaxAnalyzer);
-
-        List<Integer> lista = new ArrayList<>();
-        lista.add(1);
-        lista.add(2);
-        lista.add(3);
-
-        System.out.println(lista.subList(1,3));
+        System.out.println(syntaxAnalyzer.toString());
 
     }
 }

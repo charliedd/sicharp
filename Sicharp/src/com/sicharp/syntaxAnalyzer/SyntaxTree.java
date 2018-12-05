@@ -53,9 +53,6 @@ public class SyntaxTree {
         Token llaveAbierto = currentTokens.get(3);
         Token llaveCerrada = currentTokens.get(size -1);
 
-        System.out.println(fierroToken.getAttribute());
-        System.out.println(parentesisToken.getAttribute());
-
 
         if(!fierroToken.getAttribute().equals("fierro")) return false;
         if(!parentesisToken.getAttribute().equals("("))return false;

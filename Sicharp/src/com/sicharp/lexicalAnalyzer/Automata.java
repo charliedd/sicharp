@@ -22,8 +22,6 @@ public class Automata {
     }
 
     public void processInput(char currentChar) throws Exception {
-        System.out.println(inputStack);
-
         switch (state){
             case LITERAL:
 
@@ -68,7 +66,7 @@ public class Automata {
                 else if(Character.isDigit(currentChar)) {
                     inputStack += currentChar;
                 }else{
-                    throw new Exception(inputStack + currentChar + " is not a valid input.");
+                  //  throw new Exception(inputStack + currentChar + " is not a valid input.");
                 }
 
                 break;

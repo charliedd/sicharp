@@ -1,0 +1,5 @@
+fierro(){
+
+    entera dud = 5;
+
+}
