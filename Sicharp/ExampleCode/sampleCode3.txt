@@ -1,5 +1,7 @@
 fierro(){
 
-    entera dud = 5;
+    entera dud;
+
+    entera juan = 3;
 
 }

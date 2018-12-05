@@ -390,4 +390,7 @@ public class SyntaxTree {
         }
     }
 
+    public Node getRoot() {
+        return root;
+    }
 }

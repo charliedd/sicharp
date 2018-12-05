@@ -4,6 +4,7 @@ import com.sicharp.lexicalAnalyzer.LexicalAnalyzer;
 import com.sicharp.lexicalAnalyzer.SourceFileReader;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
+import com.sicharp.semanticAnalyzer.SemanticAnalyzer;
 import com.sicharp.syntaxAnalyzer.SyntaxAnalyzer;
 
 import java.util.ArrayList;
@@ -14,13 +15,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("C:\\Users\\rbty2\\Documents\\sicharp\\Sicharp\\ExampleCode\\sampleCode.txt");
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("/Users/carlosalbert.delgado/Documents/sicharp/Sicharp/ExampleCode/sampleCode3.txt");
         System.out.println("SYMBOLTABLE");
         lexicalAnalyzer.printSymbolTable();
         SymbolTable symbolTable = lexicalAnalyzer.getSymbolTable();
         SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(symbolTable);
 
         System.out.println(syntaxAnalyzer.toString());
+
+        SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer.getTree());
+        System.out.println();
+
 
     }
 }

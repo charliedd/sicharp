@@ -16,6 +16,8 @@ fierro() {
 
         jalas(entera < 3){
             entera r = 6;
+        }onel{
+
         }
     }
 
