@@ -5,6 +5,8 @@ import com.sicharp.lexicalAnalyzer.SourceFileReader;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.semanticAnalyzer.SemanticAnalyzer;
+import com.sicharp.semanticAnalyzer.Variable;
+import com.sicharp.semanticAnalyzer.VariableList;
 import com.sicharp.syntaxAnalyzer.SyntaxAnalyzer;
 
 import java.util.ArrayList;
@@ -24,7 +26,13 @@ public class Main {
         System.out.println(syntaxAnalyzer.toString());
 
         SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(syntaxAnalyzer.getTree());
-        System.out.println();
+
+        VariableList variableList = semanticAnalyzer.getVariableList();
+
+        for (Variable variable : variableList.getVariables()){
+            System.out.println(variable);
+
+        }
 
 
     }

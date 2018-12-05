@@ -2,6 +2,9 @@ fierro(){
 
     entera dud;
 
-    entera juan = 3;
+    entera foo = 3;
+
+    faa = 2;
+
 
 }

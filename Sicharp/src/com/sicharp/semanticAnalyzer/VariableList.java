@@ -30,4 +30,8 @@ public class VariableList {
 
         return null;
     }
+
+    public List<Variable> getVariables() {
+        return variables;
+    }
 }
