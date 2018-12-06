@@ -25,6 +25,7 @@ public class SemanticAnalyzer {
     }
 
     public void traverseTree(Node node){
+
         if(node.getType().equals("DECLARATION")){
             System.out.println("ESTO ES UNA DECLARACION: " + node.getTokens());
             List<Node> childNodes = node.getChildNodes();
@@ -36,12 +37,10 @@ public class SemanticAnalyzer {
             String name = nodeName.getTokens().get(0).getAttribute().toString();
 
             if(variableList.checkIfVariableExists(name)){
-                System.out.println("Esta variable (" + name +") ya fue declarada");
+                System.out.println("Esta variable ("+ name +") ya fue declarada");
             }else{
                 variableList.addVariable(category,name,"");
             }
-
-
 
         }
 
@@ -161,7 +160,7 @@ public class SemanticAnalyzer {
                 if(category.equals("Identificador")){
 
                     if(!variableList.checkIfVariableExists(value)){
-                        System.out.println("La variable " + value + " nof ha sido declarada");
+                        System.out.println("La variable " + value + " no ha sido declarada");
                         return false;
                     }else{
 
