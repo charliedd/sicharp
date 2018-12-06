@@ -3,12 +3,11 @@ package com.sicharp.syntaxAnalyzer;
 import com.sicharp.lexicalAnalyzer.SymbolTable;
 import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.lexicalCategories.LexicalCategory;
-import com.sicharp.lexicalCategories.operators.ArithmeticOperator;
-import com.sicharp.lexicalCategories.operators.ComparissionOperator;
-import com.sicharp.lexicalCategories.operators.LogicalOperator;
+import com.sicharp.lexicalCategories.datatypes.BigInt;
+import com.sicharp.lexicalCategories.datatypes.Integero;
+import com.sicharp.lexicalCategories.datatypes.LiteralString;
 import com.sicharp.lexicalCategories.others.Identifier;
 import com.sicharp.lexicalCategories.others.ReservedWord;
-import com.sicharp.lexicalCategories.symbols.Symbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class SyntaxTree {
 
     private enum State{
         START,STATEMENT, DECLARATION, ASIGNATION, COMPARISION, DEFAULT, TERMINAL, VARIABLE, ASIGNDECL, LOOP,
-        CONDITIONAL, LOOPSTMNT, CONDITIONALSTMNT, IDENTIFIER, ARIOP, COMOP, LOGOP, FORSTMNT;
+        CONDITIONAL, LOOPSTMNT, CONDITIONALSTMNT, IDENTIFIER;
     }
 
     public SyntaxTree(SymbolTable symbolTable){
@@ -39,7 +38,7 @@ public class SyntaxTree {
 
 
 
-        // root = parse(root);
+       // root = parse(root);
     }
 
     private boolean checkFirstProductionRule(){
@@ -53,6 +52,9 @@ public class SyntaxTree {
         Token llaveAbierto = currentTokens.get(3);
         Token llaveCerrada = currentTokens.get(size -1);
 
+        System.out.println(fierroToken.getAttribute());
+        System.out.println(parentesisToken.getAttribute());
+
 
         if(!fierroToken.getAttribute().equals("fierro")) return false;
         if(!parentesisToken.getAttribute().equals("("))return false;
@@ -60,7 +62,7 @@ public class SyntaxTree {
         if(!llaveAbierto.getAttribute().equals("{"))return false;
         if(!llaveCerrada.getAttribute().equals("}"))return false;
 
-        root.addChildNode(new Node(fierroToken,State.TERMINAL.toString()));
+        root.addChildNode(  new Node(fierroToken,State.TERMINAL.toString()));
         root.addChildNode(new Node(parentesisToken,State.TERMINAL.toString()));
         root.addChildNode(new Node(parentesisCerrado,State.TERMINAL.toString()));
         root.addChildNode(new Node(llaveAbierto,State.TERMINAL.toString()));
@@ -183,27 +185,26 @@ public class SyntaxTree {
 
                 if(currentTokens.size() == 1){
                     LexicalCategory category = currentTokens.get(0).getLexicalCategory();
+
                     if(category instanceof Identifier){
                         newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
                     }else{
                         newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                     }
-                }else{
-                    for(Token tokn : currentTokens){
-
-                        if(tokn.getLexicalCategory() instanceof ArithmeticOperator){
-                            newNode.addChildNode(parse(currentTokens,State.ARIOP));
-                            break;
-                        }else if(tokn.getLexicalCategory() instanceof ComparissionOperator){
-                            newNode.addChildNode(parse(currentTokens,State.COMOP));
-                            break;
-
-                        }else if(tokn.getLexicalCategory() instanceof LogicalOperator){
-                            newNode.addChildNode(parse(currentTokens,State.LOGOP));
-                            break;
-                        }
-
-
+                    if (category instanceof BigInt){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
+                    if (category instanceof Integero){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
+                    }
+                    if (category instanceof LiteralString){
+                        newNode.addChildNode(parse(currentTokens,State.VARIABLE));
+                    }else{
+                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                     }
 
                 }
@@ -229,6 +230,8 @@ public class SyntaxTree {
                     }
 
                 }
+
+                System.out.println("SUBLISTA : " + currentTokens.subList(index,index+1));
                 newNode.addChildNode(parse(currentTokens.subList(index,index+1),State.TERMINAL)); //)
 
 
@@ -284,90 +287,15 @@ public class SyntaxTree {
                 break;
 
             case CONDITIONALSTMNT:
-                newNode.addChildNode(parse(currentTokens,State.VARIABLE));
 
                 break;
 
             case LOOPSTMNT:
-                // newNode.addChildNode(parse(currentTokens,State.TERMINAL));
-
-                int index6 = 0;
-
-                List<Integer> listIndexes = new ArrayList<>();
-
-                for(Token tkn : currentTokens){
-                    if(tkn.getLexicalCategory() instanceof Symbol){
-                        listIndexes.add(index6);
-                    }
-
-                    index6+=1;
-                }
-
-                newNode.addChildNode(parse(currentTokens.subList(0,listIndexes.get(0)),State.ASIGNDECL));
-                newNode.addChildNode(parse(currentTokens.subList(listIndexes.get(0)+1,listIndexes.get(1)),state.TERMINAL));
-                newNode.addChildNode(parse(currentTokens.subList(listIndexes.get(1)+ 1,currentTokens.size()),State.ASIGNATION));
-
-                break;
-
-            case IDENTIFIER:
                 newNode.addChildNode(parse(currentTokens,State.TERMINAL));
                 break;
 
-            case ARIOP:
-                if(currentTokens.size() == 1){
-                    LexicalCategory category = currentTokens.get(0).getLexicalCategory();
-                    if(category instanceof Identifier){
-                        newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
-                    }else{
-                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
-                    }
-                }else{
-                    int index3 = 0;
-                    int size2 = currentTokens.size();
-                    for(Token tokn : currentTokens){
-
-                        if(tokn.getLexicalCategory() instanceof ArithmeticOperator) {
-                            newNode.addChildNode(parse(currentTokens.subList(0, 1), State.VARIABLE));
-                            newNode.addChildNode(parse(currentTokens.subList(1, 2), State.TERMINAL));
-                            newNode.addChildNode(parse(currentTokens.subList(index3 + 1, size2), State.ARIOP));
-                        }
-                        index3 += 1;
-                    }
-
-                }
-                //newNode.addChildNode(parse(currentTokens.subList(index+1,size2),State.VARIABLE));
-                break;
-
-            case COMOP:
-
-                if(currentTokens.size() == 1){
-                    LexicalCategory category = currentTokens.get(0).getLexicalCategory();
-                    if(category instanceof Identifier){
-                        newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
-                    }else{
-                        newNode.addChildNode(parse(currentTokens,State.TERMINAL));
-                    }
-                }else{
-                    int index3 = 0;
-                    int size2 = currentTokens.size();
-                    for(Token tokn : currentTokens){
-
-                        if(tokn.getLexicalCategory() instanceof ComparissionOperator) {
-                            newNode.addChildNode(parse(currentTokens.subList(0, 1), State.VARIABLE));
-                            newNode.addChildNode(parse(currentTokens.subList(1, 2), State.TERMINAL));
-                            newNode.addChildNode(parse(currentTokens.subList(index3 + 1, size2), State.COMOP));
-                        }
-                        index3 += 1;
-                    }
-
-                }
-
-                break;
-
-            case LOGOP:
-
-                break;
-
+            case IDENTIFIER:
+                newNode.addChildNode(parse(currentTokens,State.IDENTIFIER));
 
         }
 
@@ -390,7 +318,4 @@ public class SyntaxTree {
         }
     }
 
-    public Node getRoot() {
-        return root;
-    }
 }
