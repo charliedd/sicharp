@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("/Users/carlosalbert.delgado/Documents/sicharp/Sicharp/ExampleCode/sampleCode3.txt");
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer("C:\\Users\\rbty2\\Documents\\sicharp\\Sicharp\\ExampleCode\\sampleCode3.txt");
         System.out.println("SYMBOLTABLE");
         lexicalAnalyzer.printSymbolTable();
         SymbolTable symbolTable = lexicalAnalyzer.getSymbolTable();
@@ -29,6 +29,7 @@ public class Main {
 
         VariableList variableList = semanticAnalyzer.getVariableList();
 
+        System.out.println("Aqui empieza la lista de variables");
         for (Variable variable : variableList.getVariables()){
             System.out.println(variable);
 

@@ -31,6 +31,34 @@ public class VariableList {
         return false;
     }
 
+    public String getVariableType(String name){
+        for(Variable variable : variables){
+            if(variable.getName().equals(name)){
+                return variable.getType();
+            }
+        }
+        return "";
+    }
+
+    public String getVariableValue(String name){
+        for(Variable variable : variables){
+            if(variable.getName().equals(name)){
+                return variable.getValue();
+            }
+        }
+        return "";
+    }
+
+    public void updateVariableValue(String name, String value){
+        for(Variable variable : variables){
+            if(variable.getName().equals(name)){
+                variable.setValue(value);
+                return;
+            }
+        }
+
+    }
+
     public List<Variable> getVariables() {
         return variables;
     }

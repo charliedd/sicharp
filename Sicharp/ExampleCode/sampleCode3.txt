@@ -1,10 +1,9 @@
 fierro(){
 
-    entera dud;
+    entera dud = shi;
+    strin sfa = "cola";
+    entera dada = dud;
 
-    entera foo = 3;
-
-    faa = 2;
-
+    dud = 5 + 4 + "34";
 
 }

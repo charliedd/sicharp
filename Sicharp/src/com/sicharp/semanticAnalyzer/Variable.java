@@ -42,8 +42,6 @@ public class Variable {
     public String toString() {
         return "Variable{" +
                 "type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+                ", name='" + name + '\'' ;
     }
 }

@@ -1,5 +1,6 @@
 package com.sicharp.semanticAnalyzer;
 
+import com.sicharp.lexicalAnalyzer.Token;
 import com.sicharp.syntaxAnalyzer.Node;
 import com.sicharp.syntaxAnalyzer.SyntaxTree;
 
@@ -34,10 +35,12 @@ public class SemanticAnalyzer {
             String category = nodeCategory.getTokens().get(0).getAttribute().toString();
             String name = nodeName.getTokens().get(0).getAttribute().toString();
 
-            System.out.println(category);
-            System.out.println(name);
+            if(variableList.checkIfVariableExists(name)){
+                System.out.println("Esta variable (" + name +") ya fue declarada");
+            }else{
+                variableList.addVariable(category,name,"");
+            }
 
-            variableList.addVariable(category,name,"");
 
 
         }
@@ -49,19 +52,56 @@ public class SemanticAnalyzer {
 
             Node nodeCategory = childNodes.get(0);
             Node nodeName = childNodes.get(1);
+            Node nodeValue = childNodes.get(3);
 
             String category = nodeCategory.getTokens().get(0).getAttribute().toString();
             String name = nodeName.getTokens().get(0).getAttribute().toString();
+            String value = nodeValue.getTokens().get(0).getAttribute().toString();
 
-            System.out.println(category);
-            System.out.println(name);
+            if(variableList.checkIfVariableExists(name)){
+                System.out.println("Esta variable (" + name +") ya fue declarada");
+            }else{
+                if(isTypeCorrect(name, nodeValue, category)){
+                    //variableList.updateVariableValue(name,value);
+                    variableList.addVariable(category, name, value);
+                }else{
+                    System.out.print("Error : ");
+                    for(Node nodechi : childNodes){
+                        System.out.print(nodechi.getTokens() + ",");
+                    }
+                    System.out.println("\n");
+                }
+            }
 
-            variableList.addVariable(category,name,"");
+
 
         }
 
         if(node.getType().equals("ASIGNATION")){
             System.out.println("ESTO ES UNA ASIGNACION " + node.getTokens());
+
+            List<Node> childNodes = node.getChildNodes();
+
+            Node nodeName = childNodes.get(0);
+            Node nodeValue = childNodes.get(2);
+
+
+            String name = nodeName.getTokens().get(0).getAttribute().toString();
+            String value = nodeValue.getTokens().get(0).getAttribute().toString();
+
+            String expectedType = variableList.getVariableType(name);
+
+            if(variableList.checkIfVariableExists(name)){
+
+                if(isTypeCorrect(name, nodeValue, expectedType)){
+                    variableList.updateVariableValue(name,value);
+                }else{
+                    System.out.println("Error" + childNodes);
+                }
+            }else{
+                System.out.println("La variable ("+ name +") no ha sido declarada!");
+            }
+
         }
 
         for(Node childNode: node.getChildNodes()){
@@ -70,8 +110,129 @@ public class SemanticAnalyzer {
 
     }
 
-    public String getType(Node node){
-        return null;
+    public boolean isTypeCorrect(String name, Node node, String type){
+        List<Token> tokenList = node.getTokens();
+
+        if(type.equals("entera")){
+            for (Token token : tokenList){
+                String category = token.getLexicalCategory().toString();
+                String value = token.getAttribute();
+
+                if(category.equals("Identificador")){
+
+                    if(!variableList.checkIfVariableExists(value)){
+                        System.out.println("La variable " + value + " no ha sido declarada");
+                        return false;
+                    }else{
+
+                        if(variableList.getVariableValue(value).isEmpty()){
+                            System.out.println("La variable (" + value+") no se le ha asignado valor");
+                            return false;
+                        }
+
+                        String typeVar = variableList.getVariableType(value);
+
+                        if(!typeVar.equals("entera")) {
+                            System.out.println("La variable " + value + " no es tipo entero");
+                            return false;
+                        }
+
+
+
+
+                    }
+
+                }else{
+                    if( !category.equals("Operador_Aritmetico") && !category.equals("Entero")){
+                        System.out.println("No se le puede asignar el valor ("+ value +") tipo "+ category + " a la variable " + name +
+                                " tipo " + "Entero");
+                        System.out.println("categoria : " +category);
+                        return false;
+                    }
+                }
+
+            }
+        }
+        else if(type.equals("df")){
+            for(Token token : tokenList){
+                String category = token.getLexicalCategory().toString();
+                String value = token.getAttribute();
+
+                if(category.equals("Identificador")){
+
+                    if(!variableList.checkIfVariableExists(value)){
+                        System.out.println("La variable " + value + " nof ha sido declarada");
+                        return false;
+                    }else{
+
+                        if(variableList.getVariableValue(value).isEmpty()){
+                            System.out.println("La variable (" + value+") no se le ha asignado valor");
+                            return false;
+                        }
+
+
+                        String typeVar = variableList.getVariableType(value);
+
+                        if(!typeVar.equals("strin")) {
+                            System.out.println("La variable " + value + " no es tipo strin");
+                            return false;
+                        }
+
+                    }
+
+                }else {
+
+
+                    if (!value.equals("+") && !category.equals("Strin")) {
+                        System.out.println("No se le puede asignar el valor (" + value + ") tipo " + category + " a la variable " + name +
+                                " tipo " + "Strin");
+                        System.out.println("categoria : " + category);
+                        return false;
+                    }
+                }
+            }
+        }
+        else if(type.equals("strin")){
+            for(Token token : tokenList){
+                String category = token.getLexicalCategory().toString();
+                String value = token.getAttribute();
+
+                if(category.equals("Identificador")){
+
+                    if(!variableList.checkIfVariableExists(value)){
+                        System.out.println("La variable " + value + " no ha sido declarada");
+                        return false;
+                    }else{
+
+                        if(variableList.getVariableValue(value).isEmpty()){
+                            System.out.println("La variable (" + value+") no se le ha asignado valor");
+                            return false;
+                        }
+
+
+                        String typeVar = variableList.getVariableType(value);
+
+                        if(!typeVar.equals("strin")) {
+                            System.out.println("La variable " + value + " no es tipo strin");
+                            return false;
+                        }
+
+                    }
+
+                }else {
+
+
+                    if (!value.equals("+") && !category.equals("Strin")) {
+                        System.out.println("No se le puede asignar el valor (" + value + ") tipo " + category + " a la variable " + name +
+                                " tipo " + "Strin");
+                        System.out.println("categoria : " + category);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     public VariableList getVariableList() {

@@ -20,12 +20,12 @@ public class LexicalCategoriesResources {
     public static String[] ASIGNATION_OPERATORS = {"="};
 
     public static String RESERVED_WORDS_CATEGORY = "Reservada";
-    public static String[] RESERVED_WORDS = {"fierro","vodka","ej","entera","forloko","jalas","onel"
+    public static String[] RESERVED_WORDS = {"fierro","vodka","strin","entera","forloko","jalas","onel"
     ,"pormientras", "siono", "nono"
             , "shi", "intconpunto"};
 
 
-    public static String LITERAL_STRING_CATEGORY = "Literal";
+    public static String LITERAL_STRING_CATEGORY = "Strin";
     public static String[] LITERAL_SIMBOL = {"\""};
 
     public static String INTEGER_CATEGORY = "Entero";
