@@ -13,4 +13,8 @@ public class SyntaxAnalyzer {
     public String toString() {
         return tree.toString();
     }
+
+    public SyntaxTree getTree() {
+        return tree;
+    }
 }

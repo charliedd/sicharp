@@ -1,0 +1,10 @@
+fierro(){
+
+    entera dud;
+
+    entera foo = 3;
+
+    faa = 2;
+
+
+}
